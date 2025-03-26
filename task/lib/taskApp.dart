@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 
-
-
 class TaskHomePage extends StatefulWidget {
   @override
   _TaskHomePageState createState() => _TaskHomePageState();
@@ -35,7 +33,15 @@ class _TaskHomePageState extends State<TaskHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Task Manager')),
+      appBar: AppBar(
+        backgroundColor: const Color.fromARGB(255, 83, 145, 187),
+        title: Center(
+          child: Text(
+            'Task Manager',
+            style: TextStyle(fontWeight: FontWeight.w600, fontSize: 24),
+          ),
+        ),
+      ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
@@ -53,33 +59,36 @@ class _TaskHomePageState extends State<TaskHomePage> {
             ),
             SizedBox(height: 20),
             Expanded(
-              child: _tasks.isEmpty
-                  ? Center(child: Text("No tasks available"))
-                  : ListView.builder(
-                      itemCount: _tasks.length,
-                      itemBuilder: (context, index) {
-                        return Card(
-                          child: ListTile(
-                            title: Text(
-                              _tasks[index]['title'],
-                              style: TextStyle(
-                                decoration: _tasks[index]['completed']
-                                    ? TextDecoration.lineThrough
-                                    : TextDecoration.none,
+              child:
+                  _tasks.isEmpty
+                      ? Center(child: Text("No tasks available"))
+                      : ListView.builder(
+                        itemCount: _tasks.length,
+                        itemBuilder: (context, index) {
+                          return Card(
+                            child: ListTile(
+                              title: Text(
+                                _tasks[index]['title'],
+                                style: TextStyle(
+                                  decoration:
+                                      _tasks[index]['completed']
+                                          ? TextDecoration.lineThrough
+                                          : TextDecoration.none,
+                                ),
+                              ),
+                              leading: Checkbox(
+                                value: _tasks[index]['completed'],
+                                onChanged:
+                                    (value) => _toggleTaskCompletion(index),
+                              ),
+                              trailing: IconButton(
+                                icon: Icon(Icons.delete, color: Colors.red),
+                                onPressed: () => _deleteTask(index),
                               ),
                             ),
-                            leading: Checkbox(
-                              value: _tasks[index]['completed'],
-                              onChanged: (value) => _toggleTaskCompletion(index),
-                            ),
-                            trailing: IconButton(
-                              icon: Icon(Icons.delete, color: Colors.red),
-                              onPressed: () => _deleteTask(index),
-                            ),
-                          ),
-                        );
-                      },
-                    ),
+                          );
+                        },
+                      ),
             ),
           ],
         ),
